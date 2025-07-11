@@ -30,18 +30,39 @@ def download_subtitles(video_url):
         "--cookies", "cookies.txt",
         video_url
     ]
-    subprocess.run(command, check=True)
+    result = subprocess.run(command, capture_output=True, text=True)
+    print(result.stdout)
+    print(result.stderr)
+    if result.returncode != 0:
+        raise RuntimeError(f"yt-dlp failed with exit code {result.returncode}")
     print("✅ Subtitle downloaded.")
 
 def clean_vtt_file(vtt_path):
     lines = Path(vtt_path).read_text(encoding="utf-8").splitlines()
     transcript = []
+    seen = set()
+
     for line in lines:
-        if re.match(r"^\d{2}:\d{2}:\d{2}\.\d{3}", line):
+        line = line.strip()
+
+        # Skip metadata and timing
+        if (
+            line.startswith("WEBVTT") or
+            line.startswith("Kind:") or
+            line.startswith("Language:") or
+            "-->" in line or
+            re.match(r"^\d{2}:\d{2}:\d{2}\.\d{3}", line) or
+            line == "" or
+            line.isdigit() or
+            "<" in line  # Skip lines with formatting tags
+        ):
             continue
-        if "-->" in line or line.strip() == '' or line.strip().isdigit():
-            continue
-        transcript.append(line.strip())
+
+        # Avoid duplicates
+        if line not in seen:
+            transcript.append(line)
+            seen.add(line)
+
     return transcript
 
 def save_transcript(transcript_lines, title_slug):
@@ -64,11 +85,15 @@ def save_transcript(transcript_lines, title_slug):
     print("✅ Saved transcript as .txt, .md, and .json in `transcripts/` folder.")
 
 def main():
+    print("🚀 Script started.")
+    
     if len(sys.argv) < 2:
-        print("Usage: python youtube_transcript_fetcher.py <YouTube Video URL>")
+        print("Usage: python scriptr.py <YouTube Video URL>")
         sys.exit(1)
 
     video_url = sys.argv[1]
+    print(f"📺 Input URL: {video_url}")
+    
     video_id = get_video_id(video_url)
     if not video_id:
         print("❌ Could not extract video ID.")
@@ -78,7 +103,6 @@ def main():
 
     try:
         download_subtitles(video_url)
-        print("✅ Subtitles downloaded.")
 
         vtt_files = list(Path(".").glob(f"*{video_id}*.vtt"))
         if not vtt_files:
@@ -92,10 +116,12 @@ def main():
         save_transcript(transcript_lines, video_id)
         print("✅ Transcript saved.")
 
-        # Delete the original VTT file
         vtt_file.unlink()
         print(f"🧹 Deleted original .vtt file: {vtt_file.name}")
 
     except Exception as e:
         print(f"❌ Failed to process transcript: {e}")
         traceback.print_exc()
+
+if __name__ == "__main__":
+    main()
