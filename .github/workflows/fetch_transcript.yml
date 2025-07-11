@@ -2,7 +2,7 @@ name: YouTube Transcript via Issues
 
 on:
   issues:
-    types: 
+    types:
       - opened
       - edited
 
@@ -23,6 +23,23 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           pip install yt-dlp
+          sudo apt-get update
+          sudo apt-get install -y gh
+
+      - name: 🍪 Fetch cookies from remote cookie service
+        run: |
+          echo "Fetching cookies..."
+          curl -sf https://cookie-wizard.onrender.com/cookies -o cookies.txt || {
+            echo "❌ Failed to fetch cookies. Skipping transcript generation."
+            exit 1
+          }
+          echo "✅ Cookies saved to cookies.txt"
+
+      - name: 🧹 Clean old transcripts (older than 3 days)
+        run: |
+          echo "Cleaning transcripts older than 3 days..."
+          mkdir -p transcripts
+          find transcripts/ -type f -mtime +3 -exec rm {} \;
 
       - name: 🧠 Extract video URL from issue body
         id: extract
@@ -42,3 +59,17 @@ jobs:
         with:
           name: youtube-transcript
           path: transcripts/
+
+      - name: 💬 Comment on issue (success)
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_COMMENT }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "✅ Transcript generated and uploaded for the requested video. [View Workflow Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+
+      - name: 💬 Comment on issue (failure)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_COMMENT }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "❌ Transcript generation failed. Please check the workflow logs and try again later."
