@@ -77,7 +77,13 @@ def main():
 
     try:
         download_subtitles(video_url)
-        vtt_file = next(Path(".").glob(f"{video_id}*.vtt"))
+
+        # FIX: Robust .vtt file detection
+        vtt_files = list(Path(".").glob(f"*{video_id}*.vtt"))
+        if not vtt_files:
+            raise FileNotFoundError(f"No .vtt file found for video ID: {video_id}")
+        vtt_file = vtt_files[0]
+
         transcript_lines = clean_vtt_file(vtt_file)
         save_transcript(transcript_lines, video_id)
     except Exception as e:
