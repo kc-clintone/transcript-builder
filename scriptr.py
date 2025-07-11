@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import traceback
 import re
 import json
 from urllib.parse import urlparse, parse_qs
@@ -77,17 +78,24 @@ def main():
 
     try:
         download_subtitles(video_url)
+        print("✅ Subtitles downloaded.")
 
-        # FIX: Robust .vtt file detection
         vtt_files = list(Path(".").glob(f"*{video_id}*.vtt"))
         if not vtt_files:
             raise FileNotFoundError(f"No .vtt file found for video ID: {video_id}")
         vtt_file = vtt_files[0]
+        print(f"✅ Located VTT file: {vtt_file.name}")
 
         transcript_lines = clean_vtt_file(vtt_file)
+        print("✅ Transcript cleaned.")
+
         save_transcript(transcript_lines, video_id)
+        print("✅ Transcript saved.")
+
+        # Delete the original VTT file
+        vtt_file.unlink()
+        print(f"🧹 Deleted original .vtt file: {vtt_file.name}")
+
     except Exception as e:
         print(f"❌ Failed to process transcript: {e}")
-
-if __name__ == "__main__":
-    main()
+        traceback.print_exc()

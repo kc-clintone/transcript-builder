@@ -1,2 +1,8 @@
 # This file is used to store cookies for YouTube-dl or yt-dlp.
 cookies.txt
+
+# transcript files
+transcipts/
+
+# outube files
+youtube-dl/
