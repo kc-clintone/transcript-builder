@@ -35,7 +35,7 @@ jobs:
       - name: 📥 Fetch Transcript
         run: |
           echo "Using video URL: $ISSUE_BODY"
-          python scripts/transcript.py "$ISSUE_BODY"
+          python scriptr.py "$ISSUE_BODY"
 
       - name: 📤 Upload transcript artifacts
         uses: actions/upload-artifact@v4
