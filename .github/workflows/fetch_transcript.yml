@@ -1,0 +1,44 @@
+name: YouTube Transcript via Issues
+
+on:
+  issues:
+    types: 
+      - opened
+      - edited
+
+jobs:
+  transcript-from-issue:
+    if: github.event.issue.title == 'Transcript Request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install yt-dlp
+
+      - name: 🧠 Extract video URL from issue body
+        id: extract
+        run: |
+          echo "Extracting YouTube link from issue body..."
+          echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: 📥 Fetch Transcript
+        run: |
+          echo "Using video URL: $ISSUE_BODY"
+          python scripts/transcript.py "$ISSUE_BODY"
+
+      - name: 📤 Upload transcript artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtube-transcript
+          path: transcripts/
