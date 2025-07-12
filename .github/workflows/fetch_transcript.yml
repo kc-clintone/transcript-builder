@@ -26,15 +26,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gh curl
 
-      - name: 🍪 Fetch cookies from remote cookie service
-        run: |
-          echo "Fetching cookies..."
-          curl -sf https://cookie-wizard.onrender.com/extract -o cookies.txt || {
-            echo "❌ Failed to fetch cookies. Skipping transcript generation."
-            exit 1
-          }
-          echo "✅ Cookies saved to cookies.txt"
-
       - name: 🧹 Clean old transcripts (older than 3 days)
         run: |
           echo "Cleaning transcripts older than 3 days..."
@@ -52,7 +43,7 @@ jobs:
       - name: 📥 Fetch Transcript
         run: |
           echo "Using video URL: $ISSUE_BODY"
-          python scriptr.py "$ISSUE_BODY"
+          python scriptr.py "$ISSUE_BODY" --cookies ./cookies/cookies.txt
 
       - name: 📤 Upload transcript artifacts
         uses: actions/upload-artifact@v4
