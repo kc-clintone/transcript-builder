@@ -14,20 +14,23 @@ def get_video_id(url):
     if query.hostname in ('www.youtube.com', 'youtube.com'):
         if query.path == '/watch':
             return parse_qs(query.query).get('v', [None])[0]
-        elif query.path.startswith('/embed/'):
-            return query.path.split('/')[2]
-        elif query.path.startswith('/v/'):
+        elif query.path.startswith('/embed/') or query.path.startswith('/v/'):
             return query.path.split('/')[2]
     return None
 
 def download_subtitles(video_url):
     print("⬇️ Downloading auto-generated subtitles with yt-dlp...")
+
+    cookie_path = os.getenv("COOKIE_PATH", "cookies/cookies.txt")
+    if not os.path.exists(cookie_path):
+        raise FileNotFoundError(f"❌ Cookie file not found at: {cookie_path}")
+
     command = [
         "yt-dlp",
         "--write-auto-sub",
         "--sub-lang", "en",
         "--skip-download",
-        "--cookies", "cookies.txt",
+        "--cookies", cookie_path,
         video_url
     ]
     result = subprocess.run(command, capture_output=True, text=True)
@@ -44,8 +47,6 @@ def clean_vtt_file(vtt_path):
 
     for line in lines:
         line = line.strip()
-
-        # Skip metadata and timing
         if (
             line.startswith("WEBVTT") or
             line.startswith("Kind:") or
@@ -54,11 +55,9 @@ def clean_vtt_file(vtt_path):
             re.match(r"^\d{2}:\d{2}:\d{2}\.\d{3}", line) or
             line == "" or
             line.isdigit() or
-            "<" in line  # Skip lines with formatting tags
+            "<" in line
         ):
             continue
-
-        # Avoid duplicates
         if line not in seen:
             transcript.append(line)
             seen.add(line)
@@ -68,17 +67,14 @@ def clean_vtt_file(vtt_path):
 def save_transcript(transcript_lines, title_slug):
     os.makedirs("transcripts", exist_ok=True)
 
-    # Save as .txt
     with open(f"transcripts/{title_slug}.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(transcript_lines))
 
-    # Save as .md
     with open(f"transcripts/{title_slug}.md", "w", encoding="utf-8") as f:
         f.write("# Transcript\n\n")
         for line in transcript_lines:
             f.write(f"- {line}\n")
 
-    # Save as .json
     with open(f"transcripts/{title_slug}.json", "w", encoding="utf-8") as f:
         json.dump({"transcript": transcript_lines}, f, indent=2)
 
@@ -86,14 +82,14 @@ def save_transcript(transcript_lines, title_slug):
 
 def main():
     print("🚀 Script started.")
-    
+
     if len(sys.argv) < 2:
         print("Usage: python scriptr.py <YouTube Video URL>")
         sys.exit(1)
 
     video_url = sys.argv[1]
     print(f"📺 Input URL: {video_url}")
-    
+
     video_id = get_video_id(video_url)
     if not video_id:
         print("❌ Could not extract video ID.")
