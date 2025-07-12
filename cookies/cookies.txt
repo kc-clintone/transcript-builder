@@ -1,31 +1,25 @@
-# robots.txt file for YouTube
-# Created in the distant future (the year 2000) after
-# the robotic uprising of the mid 90's which wiped out all humans.
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
 
-User-agent: Mediapartners-Google*
-Disallow:
-
-User-agent: *
-Disallow: /api/
-Disallow: /comment
-Disallow: /feeds/videos.xml
-Disallow: /file_download
-Disallow: /get_video
-Disallow: /get_video_info
-Disallow: /get_midroll_info
-Disallow: /live_chat
-Disallow: /login
-Disallow: /qr
-Disallow: /results
-Disallow: /signup
-Disallow: /t/terms
-Disallow: /timedtext_video
-Disallow: /verify_age
-Disallow: /watch_ajax
-Disallow: /watch_fragments_ajax
-Disallow: /watch_popup
-Disallow: /watch_queue_ajax
-Disallow: /youtubei/
-
-Sitemap: https://www.youtube.com/sitemaps/sitemap.xml
-Sitemap: https://www.youtube.com/product/sitemap.xml
+.youtube.com	TRUE	/	FALSE	0	wide	1
+.youtube.com	TRUE	/	TRUE	1786881468	PREF	f6=40000000&tz=Africa.Nairobi&f5=20000&f7=100
+.youtube.com	TRUE	/	TRUE	1783860469	__Secure-1PSIDTS	sidts-CjEB5H03PxUl7NDIrY5C9MRn5gX6mkBe21SyA4xZ_Vbv2hK87a_a94cPW6tBsy7vBb3qEAA
+.youtube.com	TRUE	/	TRUE	1783860469	__Secure-3PSIDTS	sidts-CjEB5H03PxUl7NDIrY5C9MRn5gX6mkBe21SyA4xZ_Vbv2hK87a_a94cPW6tBsy7vBb3qEAA
+.youtube.com	TRUE	/	FALSE	1783860469	SIDCC	AKEyXzV8b32aromcDCsGqpyO0jk9B4_R2Qqa0jlxWmJkjpeTH2TWNXYZLf4gs2Ynlj0m5S3bym0
+.youtube.com	TRUE	/	TRUE	1783860469	__Secure-1PSIDCC	AKEyXzU6A8QOSH3Df6HwMMb3fhw1fDBG3_fMiSn5qXdXCRf6vTvyKrI2VDCUrF-UcB4XIEe-PQ
+.youtube.com	TRUE	/	TRUE	1783860469	__Secure-3PSIDCC	AKEyXzUcur96e5KCqy_9VXYlrNgLJex1b4QdBCz2prDaec1jNLb_AOiL6cROz7e753fRodDRG5c
+.youtube.com	TRUE	/	TRUE	1847825406	LOGIN_INFO	AFmmF2swRQIgQCLiQPkxw0bPU7jegUf0oPb71voDXhWzRVoRLRM2bF0CIQDVmdsw5gLDc6clLSIjRRTKB9XWFwUM5I3_24AsYqDBOA:QUQ3MjNmeTFJVTRXeFFWeld0eHkwZngxZjdvZkNWTVIwTWJ3b2d5bjMtTmlxb2R1WFFPcEdsVTV3QzdSNmxvSkF4VEVNbWgtSTZIVEhxT1QzMEdzVFFfLUxtMmFKdkkzaXh0QUlZZTlMeXhUNjhlRnY0d29Xa29GTDhsbEJTSmxHSEEtN3dKdlRPbEJlY3FBVTA3dG9TS1NBbkJqUi1RS1dR
+.youtube.com	TRUE	/	FALSE	1847832096	SID	g.a000zAgMVMsK6TVWy_qhj9se_WJEOzqkRt4nW_VVNR6UT1Q1oF_aI8BOPner6Mu3AashO4nS4QACgYKATESARYSFQHGX2MiK5URxfFQ17a0LkrQ1Nc4UBoVAUF8yKoGV0c970icGSv8BGomi6tp0076
+.youtube.com	TRUE	/	TRUE	1847832096	__Secure-1PSID	g.a000zAgMVMsK6TVWy_qhj9se_WJEOzqkRt4nW_VVNR6UT1Q1oF_axlEF6FW3q0wdLAvWIqNvTAACgYKAa0SARYSFQHGX2MitGlqYL-AoEmcUhs86maPJhoVAUF8yKquemTFsDK53CJnxC0fSlpZ0076
+.youtube.com	TRUE	/	TRUE	1847832096	__Secure-3PSID	g.a000zAgMVMsK6TVWy_qhj9se_WJEOzqkRt4nW_VVNR6UT1Q1oF_aROwnlNBGSFNR930-WK9JVgACgYKAZgSARYSFQHGX2Mi5Aa-6BcwtTCbrKvTIYqYUBoVAUF8yKq5hy_HDVpmEdzZgg5PSZKI0076
+.youtube.com	TRUE	/	FALSE	1847832096	HSID	AaWmeLr3fJThUYJuC
+.youtube.com	TRUE	/	TRUE	1847832096	SSID	AGZ7Az7b7G_gmPpgI
+.youtube.com	TRUE	/	FALSE	1847832096	APISID	E8m1hComI0n16QEx/A6XctU3OI2a0WGrH0
+.youtube.com	TRUE	/	TRUE	1847832096	SAPISID	72mE5UxwHGdE3vK0/AccxV-7TzuncrSqbX
+.youtube.com	TRUE	/	TRUE	1847832096	__Secure-1PAPISID	72mE5UxwHGdE3vK0/AccxV-7TzuncrSqbX
+.youtube.com	TRUE	/	TRUE	1847832096	__Secure-3PAPISID	72mE5UxwHGdE3vK0/AccxV-7TzuncrSqbX
+.youtube.com	TRUE	/	TRUE	0	YSC	ezr0r09mneU
+.youtube.com	TRUE	/	TRUE	1767872825	VISITOR_INFO1_LIVE	11m0j11XQqM
+.youtube.com	TRUE	/	TRUE	1767872825	VISITOR_PRIVACY_METADATA	CgJLRRIEGgAgSQ%3D%3D
+.youtube.com	TRUE	/	TRUE	1828824106	__Secure-ROLLOUT_TOKEN	COqM5KLvo5aRcxDbjOzx17aOAxit2IH217aOAw%3D%3D
