@@ -1,24 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>YouTube Transcript Request</title>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f7f7f7; }
-    input, button { padding: 0.5rem; font-size: 1rem; margin-top: 1rem; width: 100%; }
-    .response { margin-top: 2rem; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioScribe - YouTube Transcript Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>🎙️ YouTube Transcript Request</h1>
-  <p>Paste your YouTube link below to generate a transcript.</p>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🎙️</span>
+                <h1>AudioScribe</h1>
+            </div>
+            <p class="subtitle">Transform YouTube videos into accurate transcripts instantly</p>
+        </header>
 
-  <input type="text" id="yt-url" placeholder="https://www.youtube.com/watch?v=..." />
-  <button onclick="submitForm()">📤 Submit</button>
+        <main class="main-content">
+            <div class="form-container">
+                <div class="input-group">
+                    <label for="yt-url" class="input-label">YouTube Video URL</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="url" 
+                            id="yt-url" 
+                            placeholder="https://www.youtube.com/watch?v=..." 
+                            class="url-input"
+                            autocomplete="off"
+                        />
+                        <div class="input-status" id="input-status"></div>
+                    </div>
+                </div>
+                
+                <button id="submit-btn" class="submit-button" onclick="submitForm()">
+                    <span class="button-text">Generate Transcript</span>
+                    <span class="button-icon">📤</span>
+                </button>
+            </div>
 
-  <div class="response" id="response"></div>
+            <div class="response-container" id="response-container">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing your video...</p>
+                </div>
+                
+                <div class="response" id="response"></div>
+                
+                <div class="error" id="error"></div>
+            </div>
+        </main>
 
-  <script src="main.js"></script>
-  </script>
+        <footer class="footer">
+            <p>© 2024 AudioScribe. Simple. Fast. Accurate.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
