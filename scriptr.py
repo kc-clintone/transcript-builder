@@ -4,6 +4,7 @@ import subprocess
 import traceback
 import re
 import json
+import argparse
 from urllib.parse import urlparse, parse_qs
 from pathlib import Path
 
@@ -18,10 +19,9 @@ def get_video_id(url):
             return query.path.split('/')[2]
     return None
 
-def download_subtitles(video_url):
+def download_subtitles(video_url, cookie_path):
     print("⬇️ Downloading auto-generated subtitles with yt-dlp...")
 
-    cookie_path = os.getenv("COOKIE_PATH", "cookies/cookies.txt")
     if not os.path.exists(cookie_path):
         raise FileNotFoundError(f"❌ Cookie file not found at: {cookie_path}")
 
@@ -81,14 +81,17 @@ def save_transcript(transcript_lines, title_slug):
     print("✅ Saved transcript as .txt, .md, and .json in `transcripts/` folder.")
 
 def main():
+    parser = argparse.ArgumentParser(description="YouTube Subtitle Downloader")
+    parser.add_argument("url", help="YouTube video URL")
+    parser.add_argument("--cookies", default="cookies/cookies.txt", help="Path to cookies.txt file")
+    args = parser.parse_args()
+
+    video_url = args.url
+    cookie_path = args.cookies
+
     print("🚀 Script started.")
-
-    if len(sys.argv) < 2:
-        print("Usage: python scriptr.py <YouTube Video URL>")
-        sys.exit(1)
-
-    video_url = sys.argv[1]
     print(f"📺 Input URL: {video_url}")
+    print(f"🍪 Using cookies from: {cookie_path}")
 
     video_id = get_video_id(video_url)
     if not video_id:
@@ -98,7 +101,7 @@ def main():
     print(f"🔍 Processing video ID: {video_id}")
 
     try:
-        download_subtitles(video_url)
+        download_subtitles(video_url, cookie_path)
 
         vtt_files = list(Path(".").glob(f"*{video_id}*.vtt"))
         if not vtt_files:
