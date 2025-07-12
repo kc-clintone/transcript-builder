@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Transcript Request</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f7f7f7; }
+    input, button { padding: 0.5rem; font-size: 1rem; margin-top: 1rem; width: 100%; }
+    .response { margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>🎙️ YouTube Transcript Request</h1>
+  <p>Paste your YouTube link below to generate a transcript.</p>
+
+  <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=..." />
+  <button onclick="submitRequest()">📤 Submit</button>
+
+  <div class="response" id="response"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>
