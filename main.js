@@ -1,4 +1,4 @@
-const form = document.getElementById("yt-form");
+const form = document.getElementById("yt-url");
 const status = document.getElementById("status");
 
 const submitForm = () => {
