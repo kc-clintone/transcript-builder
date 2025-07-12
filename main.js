@@ -1,41 +1,26 @@
-async function submitRequest() {
-  const url = document.getElementById("youtube-url").value.trim();
-  const responseBox = document.getElementById("response");
+const form = document.getElementById("yt-form");
+const status = document.getElementById("status");
 
-  if (!url.startsWith("http")) {
-    responseBox.innerHTML = "❌ Please enter a valid YouTube URL.";
-    return;
-  }
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const url = document.getElementById("yt-url").value;
 
-  const repo = "your-username/transcript-builder";
-  const token = "ghp_your_personal_access_token"; // 🔒 for private/test use only
-  const apiUrl = `https://api.github.com/repos/${repo}/issues`;
-
-  const issue = {
-    title: "Transcript Request",
-    body: url,
-    labels: ["transcript"]
-  };
+  status.textContent = "Submitting...";
 
   try {
-    const res = await fetch(apiUrl, {
+    const response = await fetch("https://your-serverless-url.com/create-issue", {
       method: "POST",
-      headers: {
-        "Authorization": `token ${token}`,
-        "Accept": "application/vnd.github+json"
-      },
-      body: JSON.stringify(issue)
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
     });
 
-    if (res.ok) {
-      const data = await res.json();
-      responseBox.innerHTML = `✅ Request submitted! <a href="${data.html_url}" target="_blank">View Issue</a>`;
+    const result = await response.json();
+    if (response.ok) {
+      status.textContent = "✅ Issue created successfully!";
     } else {
-      const err = await res.json();
-      responseBox.innerHTML = `❌ Error: ${err.message}`;
+      status.textContent = `❌ Error: ${result.message}`;
     }
-  } catch (error) {
-    responseBox.innerHTML = "❌ Failed to create issue. Check console.";
-    console.error(error);
+  } catch (err) {
+    status.textContent = "❌ Failed to connect to backend.";
   }
-}
+});
