@@ -8,7 +8,7 @@ form.addEventListener("submit", async (e) => {
   status.textContent = "Submitting...";
 
   try {
-    const response = await fetch("https://your-serverless-url.com/create-issue", {
+    const response = await fetch("https://proxy-server-eight-sigma.vercel.app/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url })
