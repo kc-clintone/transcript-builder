@@ -40,6 +40,12 @@ jobs:
           echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
+      - name: 📥 Download cookie artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cookies
+          path: ./cookies
+
       - name: 📥 Fetch Transcript
         run: |
           echo "Using video URL: $ISSUE_BODY"
