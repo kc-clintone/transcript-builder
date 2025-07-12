@@ -40,11 +40,13 @@ jobs:
           echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: 📥 Download cookie artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: cookies
-          path: ./cookies
+      - name: 🧪 Verify cookie file exists
+        run: |
+          if [ ! -f ./cookies/cookies.txt ]; then
+            echo "❌ cookies.txt not found!"
+            exit 1
+          fi
+          echo "✅ Found cookies.txt"
 
       - name: 📥 Fetch Transcript
         run: |
@@ -70,3 +72,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN_COMMENT }}
         run: |
           gh issue comment ${{ github.event.issue.number }} --body "❌ Transcript generation failed. Please check the workflow logs and try again later."
+
